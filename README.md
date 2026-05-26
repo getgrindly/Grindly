@@ -27,7 +27,7 @@
 ### Installation
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/getgrindly/Grindly
+   git clone https://github.com/getgrindly/Grindly.git
    cd Grindly
    ```
 
