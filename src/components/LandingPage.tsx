@@ -24,7 +24,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { signInWithGoogle } from '@/lib/firebase';
+import { signInGuest } from '@/lib/firebase';
 const raymondAvatar = 'https://www.image2url.com/r2/default/images/1780618521207-cb89bb0a-2459-487b-8716-97055fc04d3d.png';
 
 export const LandingPage = ({ onNavigate }: { onNavigate?: (id: string) => void }) => {
@@ -40,7 +40,7 @@ export const LandingPage = ({ onNavigate }: { onNavigate?: (id: string) => void 
   const handleLogin = async () => {
     setIsAuthenticating(true);
     try {
-      await signInWithGoogle();
+      await signInGuest();
     } catch (error) {
       console.error("Login failed", error);
     } finally {

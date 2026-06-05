@@ -39,18 +39,56 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user) {
+      setUserProfile(null);
+      return;
+    }
+
+    const loadLocalProfile = () => {
+      const progressionKey = 'grindly_progression_' + user.uid;
+      const savedProg = localStorage.getItem(progressionKey);
+      const parsedProg = savedProg ? JSON.parse(savedProg) : { foundations: 0, architecture: 0, workflow: 0 };
+      
+      setUserProfile({
+        uid: user.uid,
+        email: user.email || 'guest@grindly.io',
+        displayName: user.displayName || 'Guest Architect',
+        photoURL: user.photoURL || null,
+        progression: parsedProg
+      });
+      setLoading(false);
+    };
+
+    // Attempt real-time cloud synchronization
     const userRef = doc(db, 'users', user.uid);
     const unsubscribeProfile = onSnapshot(userRef, (docSnap) => {
       if (docSnap.exists()) {
         setUserProfile(docSnap.data());
+        const data = docSnap.data();
+        if (data?.progression) {
+          localStorage.setItem('grindly_progression_' + user.uid, JSON.stringify(data.progression));
+        }
+      } else {
+        loadLocalProfile();
       }
       setLoading(false);
     }, (error) => {
-      console.error("Profile link error:", error);
-      setLoading(false);
+      console.warn("Cloud connection limited. Loading robust local offline state.", error);
+      loadLocalProfile();
     });
-    return () => unsubscribeProfile();
+
+    const handleSync = () => {
+      loadLocalProfile();
+    };
+
+    window.addEventListener('storage', handleSync);
+    window.addEventListener('grindly-sync', handleSync);
+
+    return () => {
+      unsubscribeProfile();
+      window.removeEventListener('storage', handleSync);
+      window.removeEventListener('grindly-sync', handleSync);
+    };
   }, [user]);
 
   const ActiveView = () => {

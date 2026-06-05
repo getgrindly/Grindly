@@ -25,16 +25,52 @@ export const TaskManager = () => {
   useEffect(() => {
     if (!auth.currentUser) return;
     
-    const userRef = doc(db, 'users', auth.currentUser.uid);
-    const unsubscribe = onSnapshot(userRef, (doc) => {
-      if (doc.exists()) {
-        setTasks(doc.data().tasks || []);
+    const uid = auth.currentUser.uid;
+    const loadLocalTasks = () => {
+      const saved = localStorage.getItem('grindly_tasks_' + uid);
+      if (saved) {
+        setTasks(JSON.parse(saved));
+      } else {
+        const defaultRoadmap: Task[] = [
+          { id: '1', text: 'Initialize local coding sandbox', completed: true, priority: 'high' },
+          { id: '2', text: 'Optimize TypeScript build pipeline', completed: false, priority: 'medium' },
+          { id: '3', text: 'Conduct distributed systems audit', completed: false, priority: 'low' }
+        ];
+        localStorage.setItem('grindly_tasks_' + uid, JSON.stringify(defaultRoadmap));
+        setTasks(defaultRoadmap);
       }
       setLoading(false);
+    };
+
+    const userRef = doc(db, 'users', uid);
+    const unsubscribe = onSnapshot(userRef, (docSnap) => {
+      if (docSnap.exists() && docSnap.data().tasks) {
+        setTasks(docSnap.data().tasks || []);
+        localStorage.setItem('grindly_tasks_' + uid, JSON.stringify(docSnap.data().tasks || []));
+      } else {
+        loadLocalTasks();
+      }
+      setLoading(false);
+    }, (error) => {
+      console.warn("Cloud task synchronization bypassed. Running local task database.", error);
+      loadLocalTasks();
     });
     
     return () => unsubscribe();
   }, []);
+
+  const syncTasks = async (newTasks: Task[], performCloudWrite: () => Promise<void>) => {
+    setTasks(newTasks);
+    if (auth.currentUser) {
+      localStorage.setItem('grindly_tasks_' + auth.currentUser.uid, JSON.stringify(newTasks));
+    }
+    
+    try {
+      await performCloudWrite();
+    } catch (e) {
+      console.warn("Cloud task record update bypassed. Local state preserved.", e);
+    }
+  };
 
   const addTask = async () => {
     if (!newTask.trim() || !auth.currentUser) return;
@@ -46,41 +82,54 @@ export const TaskManager = () => {
       priority: priority
     };
 
-    const userRef = doc(db, 'users', auth.currentUser.uid);
-    await updateDoc(userRef, {
-      tasks: arrayUnion(task)
+    const updated = [...tasks, task];
+    await syncTasks(updated, async () => {
+      const userRef = doc(db, 'users', auth.currentUser!.uid);
+      await updateDoc(userRef, {
+        tasks: arrayUnion(task)
+      });
     });
+
     setNewTask('');
     setPriority('medium');
   };
 
   const updateTaskPriority = async (task: Task, nextPriority: 'low' | 'medium' | 'high') => {
     if (!auth.currentUser) return;
-    const userRef = doc(db, 'users', auth.currentUser.uid);
     
     const updatedTasks = tasks.map(t => 
       t.id === task.id ? { ...t, priority: nextPriority } : t
     );
 
-    await updateDoc(userRef, { tasks: updatedTasks });
+    await syncTasks(updatedTasks, async () => {
+      const userRef = doc(db, 'users', auth.currentUser!.uid);
+      await updateDoc(userRef, { tasks: updatedTasks });
+    });
   };
 
   const toggleTask = async (task: Task) => {
     if (!auth.currentUser) return;
-    const userRef = doc(db, 'users', auth.currentUser.uid);
     
     const updatedTasks = tasks.map(t => 
       t.id === task.id ? { ...t, completed: !t.completed } : t
     );
 
-    await updateDoc(userRef, { tasks: updatedTasks });
+    await syncTasks(updatedTasks, async () => {
+      const userRef = doc(db, 'users', auth.currentUser!.uid);
+      await updateDoc(userRef, { tasks: updatedTasks });
+    });
   };
 
   const deleteTask = async (task: Task) => {
     if (!auth.currentUser) return;
-    const userRef = doc(db, 'users', auth.currentUser.uid);
-    await updateDoc(userRef, {
-      tasks: arrayRemove(task)
+    
+    const updatedTasks = tasks.filter(t => t.id !== task.id);
+
+    await syncTasks(updatedTasks, async () => {
+      const userRef = doc(db, 'users', auth.currentUser!.uid);
+      await updateDoc(userRef, {
+        tasks: arrayRemove(task)
+      });
     });
   };
 

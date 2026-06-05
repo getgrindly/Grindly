@@ -43,12 +43,21 @@ export const CodeReview = () => {
         colors: ['#00ff00', '#00f0ff', '#ff00ff']
       });
 
-      // Update progression in Firestore
+      // Update progression in Firestore or local fallback
       if (auth.currentUser) {
-        const userRef = doc(db, 'users', auth.currentUser.uid);
-        await updateDoc(userRef, {
-          'progression.workflow': increment(5)
-        });
+        try {
+          const userRef = doc(db, 'users', auth.currentUser.uid);
+          await updateDoc(userRef, {
+            'progression.workflow': increment(5)
+          });
+        } catch (e) {
+          console.warn("Cloud connection bypassed in code review. Storing progression locally.", e);
+          const key = 'grindly_progression_' + auth.currentUser.uid;
+          const current = JSON.parse(localStorage.getItem(key) || '{"foundations":0,"architecture":0,"workflow":0}');
+          current.workflow = (current.workflow || 0) + 5;
+          localStorage.setItem(key, JSON.stringify(current));
+          window.dispatchEvent(new Event('grindly-sync'));
+        }
       }
     }
   };

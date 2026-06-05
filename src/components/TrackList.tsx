@@ -27,7 +27,6 @@ export const TrackList = ({ trackId }: { trackId?: string }) => {
       colors: ['#00ff00', '#00f0ff']
     });
 
-    const userRef = doc(db, 'users', auth.currentUser.uid);
     const category = selectedLesson.category.toLowerCase();
     
     let trackField = 'progression.foundations';
@@ -37,9 +36,22 @@ export const TrackList = ({ trackId }: { trackId?: string }) => {
       trackField = 'progression.workflow';
     }
 
-    await updateDoc(userRef, {
-      [trackField]: increment(10)
-    });
+    try {
+      const userRef = doc(db, 'users', auth.currentUser.uid);
+      await updateDoc(userRef, {
+        [trackField]: increment(10)
+      });
+    } catch (e) {
+      console.warn("Cloud connection bypassed. Storing progression locally.", e);
+      const key = 'grindly_progression_' + auth.currentUser.uid;
+      const current = JSON.parse(localStorage.getItem(key) || '{"foundations":0,"architecture":0,"workflow":0}');
+      
+      const fieldName = trackField.split('.')[1] as 'foundations' | 'architecture' | 'workflow';
+      current[fieldName] = (current[fieldName] || 0) + 10;
+      
+      localStorage.setItem(key, JSON.stringify(current));
+      window.dispatchEvent(new Event('grindly-sync'));
+    }
 
     setSelectedLesson(null);
   };

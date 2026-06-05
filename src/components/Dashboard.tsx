@@ -26,7 +26,7 @@ export const Dashboard = ({ userProfile }: { userProfile: any }) => {
           <span className="text-accent-green glitch-text">Ascension</span>
         </h1>
         <p className="text-muted-foreground text-sm max-w-xl">
-          Welcome back, <span className="text-foreground font-bold">{userProfile?.displayName?.split(' ')[0]}</span>. Your neural links are stable. Continue your path towards infrastructure mastery.
+          Welcome back, <span className="text-foreground font-bold">{(userProfile?.displayName || 'Guest').split(' ')[0]}</span>. Your neural links are stable. Continue your path towards infrastructure mastery.
         </p>
       </header>
 

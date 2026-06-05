@@ -12,7 +12,7 @@
   
   --color-accent-green: #00ff00;
   --color-accent-cyan: #00f0ff;
-  --color-accent-magenta: #ff00ff;
+  --color-accent-magenta: #00ff00;
   --color-accent-yellow: #ffff00;
   
   --color-border: rgba(0, 255, 0, 0.2);
@@ -28,7 +28,7 @@
   --color-muted: #111111;
   --color-muted-foreground: #a1a1a1;
 
-  --color-accent: #ff00ff;
+  --color-accent: #00ff00;
   --color-accent-foreground: #000000;
 
   --radius-lg: 0px;
@@ -50,8 +50,8 @@
     --secondary-foreground: 187 100% 5%;
     --muted: 0 0% 10%;
     --muted-foreground: 0 0% 65%;
-    --accent: 300 100% 50%;
-    --accent-foreground: 300 100% 5%;
+    --accent: 142 100% 50%;
+    --accent-foreground: 142 100% 5%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 15%;
@@ -83,7 +83,7 @@
 }
 
 .cyber-border-magenta {
-  @apply border border-accent-magenta/30 shadow-[0_0_15px_-5px_rgba(255,0,255,0.3)];
+  @apply border border-accent-magenta/30 shadow-[0_0_15px_-5px_rgba(0,255,0,0.3)];
 }
 
 .cyber-grid {
@@ -111,7 +111,7 @@
 
 .glitch-text:hover {
   text-shadow: 
-    1px 0 #ff00ff,
+    1px 0 #00ff00,
     -1px 0 #00f0ff;
 }
 

@@ -104,7 +104,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeId, onNavigate }
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-[10px] font-bold text-foreground truncate">{user.displayName}</p>
+                <p className="text-[10px] font-bold text-foreground truncate">{user.displayName || 'Guest Architect'}</p>
                 <button 
                   onClick={() => logout()}
                   className="text-[9px] font-mono text-muted-foreground hover:text-accent-magenta uppercase flex items-center gap-1"
