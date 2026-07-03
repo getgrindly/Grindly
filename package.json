@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "main": "src/main.tsx",
+  "type": "module",
   "scripts": {
     "dev": "next dev --port 3000",
     "build": "next build",
