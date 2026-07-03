@@ -35,13 +35,16 @@ export default function App() {
     return () => unsubscribeAuth();
   }, []);
 
-  useEffect(() => {
+    useEffect(() => {
     if (!user) {
       setUserProfile(null);
       return;
     }
 
     const loadLocalProfile = () => {
+      // Guard clauses for Server-Side Rendering
+      if (typeof window === 'undefined') return;
+
       const progressionKey = 'grindly_progression_' + user.uid;
       const savedProg = localStorage.getItem(progressionKey);
       const parsedProg = savedProg ? JSON.parse(savedProg) : { foundations: 0, architecture: 0, workflow: 0 };
@@ -62,7 +65,8 @@ export default function App() {
       if (docSnap.exists()) {
         setUserProfile(docSnap.data());
         const data = docSnap.data();
-        if (data?.progression) {
+        // Guard clause for server environment
+        if (data?.progression && typeof window !== 'undefined') {
           localStorage.setItem('grindly_progression_' + user.uid, JSON.stringify(data.progression));
         }
       } else {
@@ -78,15 +82,21 @@ export default function App() {
       loadLocalProfile();
     };
 
-    window.addEventListener('storage', handleSync);
-    window.addEventListener('grindly-sync', handleSync);
+    // Guard listener attachments to only run in the browser
+    if (typeof window !== 'undefined') {
+      window.addEventListener('storage', handleSync);
+      window.addEventListener('grindly-sync', handleSync);
+    }
 
     return () => {
       unsubscribeProfile();
-      window.removeEventListener('storage', handleSync);
-      window.removeEventListener('grindly-sync', handleSync);
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('storage', handleSync);
+        window.removeEventListener('grindly-sync', handleSync);
+      }
     };
   }, [user]);
+  
 
   const ActiveView = () => {
     switch (activeTab) {
