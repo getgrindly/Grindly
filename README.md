@@ -14,20 +14,26 @@
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **Framework:** React 19
+- **Framework:** Next.js 15 (React 19)
 - **Styling:** Tailwind CSS 4
 - **UI Components:** shadcn/ui, Base UI
 - **Editor:** Monaco Editor
 - **State:** React hooks
-- **Build Tool:** Vite
+- **Deployment:** Docker, Vercel-ready
 
 ### Backend
 - **Runtime:** Node.js
 - **Language:** TypeScript
-- **Framework:** Express.js
+- **Framework:** NestJS + Fastify (2x faster routing)
 - **Database:** PostgreSQL
 - **ORM:** Prisma
-- **Development:** tsx with hot reload
+- **Caching:** Redis with decorator-based caching
+- **Development:** Hot reload with watch mode
+
+### Infrastructure
+- **Containerization:** Docker + Docker Compose
+- **Services:** PostgreSQL, Redis
+- **Health Checks:** Built-in service monitoring
 
 ### Additional Services
 - **AI Integration:** Google GenAI
@@ -41,11 +47,11 @@ Test-Driven Development (TDD), SOLID Principles, Scalable Architecture, System D
 ## 🏁 Getting Started
 
 ### Prerequisites
-- Node.js 18+ (LTS recommended)
-- npm or yarn
-- PostgreSQL 16+ (or Docker)
+- Node.js 20+ (LTS recommended)
+- npm
+- Docker & Docker Compose (for full stack) or PostgreSQL + Redis
 
-### Frontend Setup
+### Quick Start with Docker (Recommended)
 
 1. **Clone the repository**
    ```bash
@@ -53,57 +59,86 @@ Test-Driven Development (TDD), SOLID Principles, Scalable Architecture, System D
    cd Grindly
    ```
 
-2. **Install frontend dependencies**
+2. **Set up environment**
+   ```bash
+   cp .env.example .env
+   cp .env.local.example .env.local
+   # Update with your API keys
+   ```
+
+3. **Start all services**
+   ```bash
+   docker-compose up --build
+   ```
+
+Services start automatically:
+- **Frontend:** http://localhost:3000 (Next.js)
+- **Backend:** http://localhost:5000 (NestJS + Fastify)
+- **PostgreSQL:** localhost:5432
+- **Redis:** localhost:6379
+
+See [DOCKER.md](./DOCKER.md) for detailed Docker guide.
+
+### Local Development (Without Docker)
+
+#### Frontend Setup
+
+1. **Install dependencies**
    ```bash
    npm install
    ```
 
-3. **Start frontend dev server**
+2. **Create environment file**
+   ```bash
+   cp .env.local.example .env.local
+   # Update with your API keys
+   ```
+
+3. **Start dev server**
    ```bash
    npm run dev
    ```
    Frontend runs on `http://localhost:3000`
 
-### Backend Setup
+#### Backend Setup
 
-1. **Set up PostgreSQL**
-   ```bash
-   # Using Docker (recommended)
-   docker run --name grindly-postgres \
-     -e POSTGRES_USER=user \
-     -e POSTGRES_PASSWORD=password \
-     -e POSTGRES_DB=grindly \
-     -p 5432:5432 \
-     -d postgres:16-alpine
-   ```
-   Or follow the detailed guide in `backend/POSTGRES_SETUP.md`
-
-2. **Install backend dependencies**
+1. **Install dependencies**
    ```bash
    cd backend
    npm install
    ```
 
+2. **Set up PostgreSQL & Redis**
+   ```bash
+   # PostgreSQL
+   brew install postgresql@16  # macOS
+   # or use Docker: docker run -d -p 5432:5432 postgres:16-alpine
+
+   # Redis
+   brew install redis  # macOS
+   # or use Docker: docker run -d -p 6379:6379 redis:7-alpine
+   ```
+
 3. **Configure environment**
    ```bash
    cp .env.example .env
-   # Update .env with your DATABASE_URL if needed
    ```
 
 4. **Run database migrations**
    ```bash
    npm run db:migrate
+   npm run db:generate
    ```
 
-5. **Start backend dev server**
+5. **Start backend server**
    ```bash
    npm run dev
    ```
    Backend runs on `http://localhost:5000`
 
-### Full Stack Development
+### Full Stack Development (Local)
 
-Run both frontend and backend concurrently:
+Run both concurrently:
 - **Terminal 1:** `npm run dev` (frontend on port 3000)
 - **Terminal 2:** `cd backend && npm run dev` (backend on port 5000)
 
