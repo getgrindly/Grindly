@@ -97,7 +97,6 @@ export default function App() {
     };
   }, [user]);
   
-
   const ActiveView = () => {
     switch (activeTab) {
       case 'dashboard':
