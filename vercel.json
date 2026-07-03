@@ -11,7 +11,7 @@
       "entrypoint": "src/main.ts"
     },
     "api-node": {
-      "root": "src",
+      "root": ".",
       "framework": "node"
     }
   },
