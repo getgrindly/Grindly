@@ -6,7 +6,9 @@
       "framework": "nextjs"
     },
     "backend": {
-      "root": "backend"
+      "root": "backend",
+      "framework": "nestjs",
+      "entrypoint": "src/main.ts"
     },
     "api-node": {
       "root": "src",
