@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { AppModule } from './app.module';
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -12,7 +12,7 @@ async function bootstrap() {
     new FastifyAdapter(),
   );
 
-  const port = process.env.PORT || 5000;
+  const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 5000;
   const origin = process.env.FRONTEND_URL || 'http://localhost:3000';
 
   app.enableCors({
@@ -21,10 +21,10 @@ async function bootstrap() {
   });
 
   await app.listen(port, '0.0.0.0');
-  console.log(`Server is running at http://localhost:${port}`);
+  console.log(`Server is running on http://localhost:${port}`);
 }
 
-bootstrap().catch(err => {
+bootstrap().catch((err) => {
   console.error('Failed to start server:', err);
   process.exit(1);
 });
