@@ -6,21 +6,8 @@
       "destination": "/api/backend"
     },
     {
-      "source": "/:path*",
+      "source": "/(.*)",
       "destination": "/"
-    }
-  ],
-  "builds": [
-    {
-      "src": "src/main.ts",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/backend",
-      "dest": "src/main.ts",
-      "methods": ["GET", "POST", "PUT", "PATCH", "OPTIONS", "DELETE", "HEAD"]
     }
   ]
 }
