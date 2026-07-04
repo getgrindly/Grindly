@@ -16,7 +16,7 @@
     "moduleResolution": "node",
     "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["backend/src/*"]
     },
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
