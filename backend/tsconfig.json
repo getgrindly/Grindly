@@ -16,9 +16,7 @@
     "moduleResolution": "node",
     "baseUrl": "./",
     "paths": {
-      "@/*": ["backend/src/*"],
-      "@prisma/client": ["node_modules/@prisma/client", "node_modules/.prisma/client"],
-      "../generated/client": ["node_modules/@prisma/client"]
+      "@/*": ["backend/src/*"]
     },
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
