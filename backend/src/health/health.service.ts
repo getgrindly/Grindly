@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { RedisService } from '../redis/redis.service';
-import { Cacheable } from ..@/redis/cache.decorator';
+import { Cacheable } from ../redis/cache.decorator';
 
 @Injectable()
 export class HealthService {
