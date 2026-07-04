@@ -1,6 +1,7 @@
 'use client';
 
 import dynamicImport from 'next/dynamic';
+import App from '@/components/App';
 
 export const revalidate = 0;
 export const dynamic = 'force-dynamic';
