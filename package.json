@@ -30,6 +30,7 @@
     "react-dom": "^19.2.7",
     "react-markdown": "^10.1.0",
     "react-resizable-panels": "^4.11.3",
+    "redis": "^4.7.0",
     "tailwind-merge": "^3.5.0",
     "vaul": "^1.1.2"
   },
@@ -38,6 +39,7 @@
     "@types/node": "^22.15.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "@types/redis": "^4.0.11",
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.3",
     "tailwindcss": "^4.1.18",
