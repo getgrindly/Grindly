@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import React from 'react';
 import '@/styles/globals.css';
-import { TooltipProvider } from '@/components/ui/tooltip';
+import { LayoutContent } from './layout-client';
 
 export const metadata: Metadata = {
   title: 'Grindly - Master Your Craft',
@@ -16,9 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <TooltipProvider>
-          {children}
-        </TooltipProvider>
+        <LayoutContent>{children}</LayoutContent>
       </body>
     </html>
   );
