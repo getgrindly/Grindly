@@ -9,10 +9,6 @@
       "root": "backend",
       "framework": "nestjs",
       "entrypoint": "src/main.ts"
-    },
-    "api-node": {
-      "root": ".",
-      "framework": "node"
     }
   },
   "rewrites": [
