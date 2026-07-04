@@ -1,10 +1,10 @@
 import { RedisService } from './redis.service';
 
-export function Cacheable(ttl: number = 3600, keyPrefix?: string) {
+export function Cacheable(ttl: number = 3600, keyPrefix?: string): any {
   return function (
     target: any, 
     propertyKey: string | symbol, 
-    descriptor: TypedPropertyDescriptor<any>
+    descriptor: PropertyDescriptor // Changed from TypedPropertyDescriptor<any>
   ) {
     const originalMethod = descriptor.value;
 
@@ -15,6 +15,7 @@ export function Cacheable(ttl: number = 3600, keyPrefix?: string) {
     descriptor.value = async function (this: any, ...args: any[]) {
       const redisService = this.redisService as RedisService;
 
+      // Note: Ensure your controller/service class has `constructor(private readonly redisService: RedisService)`
       if (!redisService?.isConnected()) {
         return originalMethod.apply(this, args);
       }
