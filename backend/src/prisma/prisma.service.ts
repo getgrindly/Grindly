@@ -7,7 +7,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
 
   async onModuleInit() {
     try {
-      // Fully type-safe connection check
+      // TypeScript now natively recognizes $connect()
       await this.$connect();
       this.logger.log('Successfully connected to the database.');
     } catch (error) {
@@ -18,7 +18,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
 
   async onModuleDestroy() {
     try {
-      // Fully type-safe disconnection check
+      // TypeScript now natively recognizes $disconnect()
       await this.$disconnect();
       this.logger.log('Successfully disconnected from the database.');
     } catch (error) {
@@ -26,3 +26,4 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
     }
   }
 }
+
