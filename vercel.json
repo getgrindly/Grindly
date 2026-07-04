@@ -24,13 +24,6 @@
       }
     },
     {
-      "source": "/api/:path*",
-      "destination": {
-        "type": "service",
-        "service": "api-node"
-      }
-    },
-    {
       "source": "/:path*",
       "destination": {
         "type": "service",
