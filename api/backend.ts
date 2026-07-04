@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
-import { AppModule } from '../src/app.module';
+import { AppModule } from '../../../../../src/app.module';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
