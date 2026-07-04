@@ -15,7 +15,7 @@ export class HealthService {
     let databaseConnected = false;
 
     try {
-      await this.prisma.$queryRaw`SELECT 1`;
+      await this.prismaService.client.$queryRaw`SELECT 1`;
       databaseConnected = true;
     } catch (error) {
       databaseConnected = false;
