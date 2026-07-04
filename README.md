@@ -14,7 +14,7 @@
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **Framework:** Next.js 15 (React 19)
+- **Framework:** Next.js 14 (React 18)
 - **Styling:** Tailwind CSS 4
 - **UI Components:** shadcn/ui, Base UI
 - **Editor:** Monaco Editor
