@@ -17,7 +17,7 @@
     "@nestjs/core": "^11.1.27",
     "@nestjs/platform-fastify": "^11.1.27",
     "@types/canvas-confetti": "^1.9.1",
-    "canvas-confetti": "^1.9.4",
+    "canvas-confetti": "^1.9.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dotenv": "^16.4.7",
