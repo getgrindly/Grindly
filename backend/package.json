@@ -5,7 +5,10 @@
   "main": "dist/main.js",
   "type": "commonjs",
   "scripts": {
+    "prebuild": "prisma generate",
+    "prestart:dev": "prisma generate",
     "dev": "nest start --watch",
+    "start:dev": "nest start --watch",
     "build": "nest build",
     "start": "node dist/main.js",
     "lint": "tsc --noEmit",
