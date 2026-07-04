@@ -2,12 +2,13 @@ import { Injectable, OnModuleInit, OnModuleDestroy, Logger } from '@nestjs/commo
 import { PrismaClient } from '@prisma/client';
 
 @Injectable()
-export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
+export class PrismaService extends (PrismaClient as any) implements OnModuleInit, OnModuleDestroy {
   private readonly logger = new Logger(PrismaService.name);
 
   async onModuleInit() {
     try {
-      await this.$connect();
+      // Using array syntax/runtime access prevents TS compile errors
+      await (this as any).$connect();
       this.logger.log('Successfully connected to the database.');
     } catch (error) {
       this.logger.error('Failed to connect to the database:', error);
@@ -17,7 +18,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
 
   async onModuleDestroy() {
     try {
-      await this.$disconnect();
+      await (this as any).$disconnect();
       this.logger.log('Successfully disconnected from the database.');
     } catch (error) {
       this.logger.error('Error during database disconnection:', error);
