@@ -5,8 +5,10 @@
   "main": "dist/main.js",
   "type": "commonjs",
   "scripts": {
+    "postinstall": "prisma generate",
     "prebuild": "prisma generate",
     "prestart:dev": "prisma generate",
+    "prelint": "prisma generate",
     "dev": "nest start --watch",
     "start:dev": "nest start --watch",
     "build": "nest build",
