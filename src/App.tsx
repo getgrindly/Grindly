@@ -17,6 +17,7 @@ import { PipelineViewer } from '@/components/PipelineViewer';
 import { CurriculumView } from '@/components/CurriculumView';
 import { PrivacyProtocol } from '@/components/PrivacyProtocol';
 import { TermsOfService } from '@/components/TermsOfService';
+import { MentorshipPortal } from '@/components/MentorshipPortal';
 import { auth, db } from '@/lib/firebase';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { doc, onSnapshot } from 'firebase/firestore';
@@ -111,6 +112,8 @@ export default function App() {
         return <GitSimulator />;
       case 'pipeline':
         return <PipelineViewer />;
+      case 'mentorship':
+        return <MentorshipPortal />;
       case 'curriculum':
         return <CurriculumView onBack={() => setActiveTab('dashboard')} />;
       case 'privacy':
