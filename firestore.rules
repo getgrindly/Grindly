@@ -33,5 +33,21 @@ service cloud.firestore {
       allow get: if isSignedIn() && resource.data.userId == request.auth.uid;
       allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
     }
+
+    match /mentors/{mentorId} {
+      allow read: if isSignedIn();
+      allow create, update, delete: if isOwner(mentorId);
+    }
+
+    match /mentees/{menteeId} {
+      allow read, write: if isOwner(menteeId);
+    }
+
+    match /mentorshipRooms/{roomId} {
+      allow read: if isSignedIn() && (resource.data.mentorId == request.auth.uid || resource.data.menteeId == request.auth.uid);
+      allow create: if isSignedIn() && (request.resource.data.mentorId == request.auth.uid || request.resource.data.menteeId == request.auth.uid);
+      allow update: if isSignedIn() && (resource.data.mentorId == request.auth.uid || resource.data.menteeId == request.auth.uid);
+      allow delete: if isSignedIn() && (resource.data.mentorId == request.auth.uid || resource.data.menteeId == request.auth.uid);
+    }
   }
 }
