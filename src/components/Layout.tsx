@@ -15,7 +15,8 @@ import {
   Layers,
   GitBranch,
   BookOpen,
-  Zap
+  Zap,
+  Users
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -36,6 +37,7 @@ const NAV_ITEMS = [
   { id: 'review', label: 'Code Review', icon: Terminal },
   { id: 'git', label: 'Git Flow', icon: GitBranch },
   { id: 'pipeline', label: 'CI/CD Pipelines', icon: Zap },
+  { id: 'mentorship', label: 'Mentorship', icon: Users },
   { id: 'curriculum', label: 'Curriculum', icon: BookOpen },
 ];
 
