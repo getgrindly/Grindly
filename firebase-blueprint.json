@@ -35,6 +35,53 @@
         "createdAt": { "type": "string", "format": "date-time" }
       },
       "required": ["userId", "challengeId", "code"]
+    },
+    "Mentor": {
+      "title": "Volunteer Mentor Profile",
+      "description": "Information about a volunteer developer mentor",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "displayName": { "type": "string" },
+        "skills": { "type": "array" },
+        "availability": { "type": "string" },
+        "bio": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "displayName", "skills", "availability"]
+    },
+    "Mentee": {
+      "title": "Mentee Application",
+      "description": "Information about a user applying for mentorship",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "displayName": { "type": "string" },
+        "goals": { "type": "string" },
+        "needs": { "type": "string" },
+        "commitment": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "displayName", "goals", "needs", "commitment"]
+    },
+    "MentorshipRoom": {
+      "title": "Mentorship Room",
+      "description": "An active matching environment between a mentor and a mentee",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "mentorId": { "type": "string" },
+        "mentorName": { "type": "string" },
+        "menteeId": { "type": "string" },
+        "menteeName": { "type": "string" },
+        "startDate": { "type": "string", "format": "date-time" },
+        "durationMonths": { "type": "number" },
+        "milestones": { "type": "array" },
+        "meetings": { "type": "array" },
+        "roadmap": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "mentorId", "menteeId"]
     }
   },
   "firestore": {
@@ -45,6 +92,18 @@
     "/submissions/{submissionId}": {
       "schema": "Submission",
       "description": "Saved code reviews"
+    },
+    "/mentors/{mentorId}": {
+      "schema": "Mentor",
+      "description": "Registered volunteer mentors"
+    },
+    "/mentees/{menteeId}": {
+      "schema": "Mentee",
+      "description": "Mentee applications submitted by users"
+    },
+    "/mentorshipRooms/{roomId}": {
+      "schema": "MentorshipRoom",
+      "description": "Active mentorship sessions and workspaces"
     }
   }
 }
